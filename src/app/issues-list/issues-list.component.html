@@ -1,0 +1,23 @@
+<button type="button" class="btn" [ngClass]="{'active': stateOpen}" (click)="stateOpen = !stateOpen; changeState('open')">Open</button>
+<button type="button" class="btn" [ngClass]="{'active': stateClosed}" (click)="stateClosed = !stateClosed; changeState('closed')">Closed</button>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let issue of issuesList">
+    <div class="row">
+      <div class="col-1 justify-content-between">
+        <i class="fa fa-info-circle" aria-hidden="true" [ngClass]="{open: issue.state == 'open'}"></i>
+      </div>
+      <div class="col-1">{{issue.number}}</div>
+      <div class="col-7">{{issue.title}}</div>
+      <div class="col-1 justify-content-between">
+          <i class="fa fa-comment" aria-hidden="true" [ngClass]="{open: issue.state == 'open'}"></i>
+          ({{issue.comments}})
+        </div>
+      <div col="col-md-2">{{issue.created_at | date}}</div>
+    </div>
+  </li>
+</ul>
+<app-pagination *ngIf="issuesList.length > 0"
+  [paginationData]="paginationData" 
+  [currentPage]="currentPage" 
+  (changes)="paginationChanges($event)">
+</app-pagination>

@@ -1,0 +1,21 @@
+<nav>
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [ngClass]="{'disabled': !paginationData.first}">
+      <a class="page-link"  (click)="goFirstPage($event)" href="#">First</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': !paginationData.prev}">
+      <a class="page-link" (click)="goPrevPage($event)" href="#">Prev</a>
+    </li>
+    <li class="page-item" 
+        *ngFor="let page of showPages"  
+        [ngClass]="{'active': currentPage == page}">
+        <a class="page-link" (click) = "goToPage($event, page)" href="#">{{page}}</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': !paginationData.next}">
+      <a class="page-link" (click)="goNextPage($event)" href="#">Next</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': !paginationData.last}">
+      <a class="page-link"  (click)="goLastPage($event)" href="#">Last</a>
+    </li>
+  </ul>
+</nav>
