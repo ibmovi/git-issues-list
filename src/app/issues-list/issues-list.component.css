@@ -1,0 +1,23 @@
+i.fa.fa-info-circle.open {
+    color: #88da88;
+}
+
+i.fa.fa-info-circle {
+    color: #d48d8d;
+}
+
+.list-group {
+    margin: 2% 0 2%;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.btn.active {
+    background-color: #007bff;
+}
+
+.btn {
+    color: white;
+}
