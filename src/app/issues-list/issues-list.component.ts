@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { DatePipe } from '@angular/common';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { issue } from './issues-list.model';
 import { pagination } from '../pagination/pagination.model';
@@ -11,13 +12,13 @@ import { pagination } from '../pagination/pagination.model';
   styleUrls: ['./issues-list.component.css']
 })
 export class IssuesListComponent implements OnInit {
-
   private gitIssuesUrl: string = 'https://api.github.com/repos/angular/angular/issues?per_page=15';
   private gitIssuesState: string = 'open';
   
   issuesList: Array<issue> = [];
   stateOpen: boolean = true;
   stateClosed: boolean = false;
+  errorMessage: string = '';
 
   paginationData: pagination = {
     first: null,
@@ -27,8 +28,15 @@ export class IssuesListComponent implements OnInit {
   };
   currentPage: number = 1;
 
-  constructor(private http: Http) {
-    this.updateIssuesList(this.currentPage);
+  constructor(
+    private http: Http,
+    private route: ActivatedRoute,
+    private router: Router) {
+    let component = this;
+    component.route.params.subscribe((params: Params) => {
+        component.currentPage = typeof params['numPage'] != 'undefined' ? params['numPage'] : 1;
+        this.updateIssuesList(this.currentPage);
+    });
   }
 
   ngOnInit() {
@@ -48,7 +56,7 @@ export class IssuesListComponent implements OnInit {
   }
 
   paginationChanges(page) {
-    this.updateIssuesList(page);
+    this.router.navigate(['/' + page]);
   }
 
   linksToPaginationData(headerLinks) {
@@ -73,13 +81,20 @@ export class IssuesListComponent implements OnInit {
     component.http.get(component.gitIssuesUrl + '&state=' + component.gitIssuesState + '&page=' + page).subscribe(
       res => {
         if (res.status == 200) {
+          component.errorMessage = '';
           component.currentPage = page;
           let headerLinks: string = res.headers.get('link');
           if (headerLinks) {
             component.linksToPaginationData(headerLinks);
           }
           component.issuesList = res.json();
+        } else {
+          component.errorMessage = res.json().message;
         }
+      },
+      err => {
+        console.log('entro')
+        component.errorMessage = err.json().message;
       }
     );
   }

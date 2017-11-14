@@ -1,5 +1,10 @@
-<button type="button" class="btn" [ngClass]="{'active': stateOpen}" (click)="stateOpen = !stateOpen; changeState('open')">Open</button>
-<button type="button" class="btn" [ngClass]="{'active': stateClosed}" (click)="stateClosed = !stateClosed; changeState('closed')">Closed</button>
+<div *ngIf="issuesList.length > 0">
+  <button type="button" class="btn" [ngClass]="{'active': stateOpen}" (click)="stateOpen = !stateOpen; changeState('open')">Open</button>
+  <button type="button" class="btn" [ngClass]="{'active': stateClosed}" (click)="stateClosed = !stateClosed; changeState('closed')">Closed</button>
+</div>
+<div *ngIf="errorMessage != ''" class="alert alert-danger text-center">
+    {{errorMessage}}
+</div>
 <ul class="list-group">
   <li class="list-group-item" *ngFor="let issue of issuesList">
     <div class="row">

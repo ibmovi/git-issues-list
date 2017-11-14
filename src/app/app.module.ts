@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { IssuesListComponent } from './issues-list/issues-list.component';
 import { PaginationComponent } from './pagination/pagination.component';
-
+import {AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +14,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     PaginationComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     HttpModule
   ],

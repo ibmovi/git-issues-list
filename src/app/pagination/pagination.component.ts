@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, Output,  EventEmitter, SimpleChanges } from '@angular/core';
 import { pagination } from './pagination.model';
 
 @Component({
@@ -22,29 +22,29 @@ export class PaginationComponent implements OnInit, OnChanges {
     this.updateCurrentPage();
   }
 
-  goFirstPage(e) {
+  goFirstPage(e: any) {
     e.preventDefault();
     if (this.currentPage != 1) {
       this.changes.emit(this.paginationData.first);
     }
   }
 
-  goPrevPage(e) {
+  goPrevPage(e: any) {
     e.preventDefault();
     this.changes.emit(this.paginationData.prev);
   }
 
-  goToPage(e, page: number) {
+  goToPage(e: any, page: number) {
     e.preventDefault();
     this.changes.emit(page);
   }
 
-  goNextPage(e) {
+  goNextPage(e: any) {
     e.preventDefault();
     this.changes.emit(this.paginationData.next);
   }
 
-  goLastPage(e) {
+  goLastPage(e: any) {
     e.preventDefault();
     this.changes.emit(this.paginationData.last);
   }
@@ -60,14 +60,14 @@ export class PaginationComponent implements OnInit, OnChanges {
     let initPage = 0;
     let step = Math.ceil(component.maxShowPages/2);
     let maxPage = component.paginationData.last ? component.paginationData.last : component.currentPage;
-    if(component.currentPage > step) {
+    let tmpMaxShowPage = component.maxShowPages > maxPage ? maxPage : component.maxShowPages;
+    if((component.paginationData.last) < (step + component.currentPage)) {
+      initPage = maxPage - tmpMaxShowPage;
+    } else if(component.currentPage > step) {
       initPage = component.currentPage - step;
     } 
-    if((component.paginationData.last) < (step + component.currentPage)) {
-      initPage = maxPage - component.maxShowPages;
-    }
     let tmpShowPages = [];
-    for (let index = 1; index <= component.maxShowPages; index++) {
+    for (let index = 1; index <= tmpMaxShowPage; index++) {
       tmpShowPages.push(initPage + index);
     }
     component.showPages = tmpShowPages;
