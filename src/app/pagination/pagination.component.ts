@@ -12,8 +12,9 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   @Output() changes = new EventEmitter<any>();
   
-  private showPages: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   private maxShowPages: number = 7;
+  
+  showPages: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   
   constructor() { }
 

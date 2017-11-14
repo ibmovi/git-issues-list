@@ -14,9 +14,10 @@ export class IssuesListComponent implements OnInit {
 
   private gitIssuesUrl: string = 'https://api.github.com/repos/angular/angular/issues?per_page=15';
   private gitIssuesState: string = 'open';
-  private issuesList: Array<issue> = [];
-  private stateOpen: boolean = true;
-  private stateClosed: boolean = false;
+  
+  issuesList: Array<issue> = [];
+  stateOpen: boolean = true;
+  stateClosed: boolean = false;
 
   paginationData: pagination = {
     first: null,
