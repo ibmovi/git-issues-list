@@ -5,7 +5,12 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 
 import { issue } from './issues-list.model';
 import { pagination } from '../pagination/pagination.model';
-
+/**
+ * List git hub issues component
+ * @export
+ * @class IssuesListComponent
+ * @implements {OnInit}
+ */
 @Component({
   selector: 'app-issues-list',
   templateUrl: './issues-list.component.html',
@@ -28,6 +33,13 @@ export class IssuesListComponent implements OnInit {
   };
   currentPage: number = 1;
 
+  /**
+   * Creates an instance of IssuesListComponent.
+   * @param {Http} http 
+   * @param {ActivatedRoute} route 
+   * @param {Router} router 
+   * @memberof IssuesListComponent
+   */
   constructor(
     private http: Http,
     private route: ActivatedRoute,
@@ -42,24 +54,39 @@ export class IssuesListComponent implements OnInit {
   ngOnInit() {
     
   }
-
-  changeState(state) {
-    if(this.stateOpen && this.stateClosed) {
-      this.gitIssuesState = 'all';
-    } else if(this.stateClosed) {
-      this.gitIssuesState = 'closed'
-    } else {
-      this.stateOpen = true;
-      this.gitIssuesState = 'open';
+  /**
+   * Change the list of "issues" by state
+   * @param {any} state open or closed
+   * @memberof IssuesListComponent
+   */
+  changeState(state: string) {
+      if(this.stateOpen && this.stateClosed) {
+        this.gitIssuesState = 'all';
+      } else if(this.stateClosed) {
+        this.gitIssuesState = 'closed'
+      } else {
+        this.stateOpen = true;
+        this.gitIssuesState = 'open';
+      }
+      this.updateIssuesList(1);
     }
-    this.updateIssuesList(1);
-  }
 
-  paginationChanges(page) {
+  /**
+   * @param {number} page Page number to navigate 
+   * @memberof IssuesListComponent
+   */
+  paginationChanges(page: number) {
     this.router.navigate(['/' + page]);
   }
 
-  linksToPaginationData(headerLinks) {
+  /**
+   * Response header links parser, to update paginationData
+   * Links example:
+   * "<https://api.github.com/repositories/24195339/issues?per_page=15&state=open&page=4>;" rel="next", 
+   * @param {string} headerLinks Response header links
+   * @memberof IssuesListComponent
+   */
+  linksToPaginationData(headerLinks: string) {
     let component = this;
     let tmpPaginationData: pagination = {
       first: null,
@@ -76,7 +103,12 @@ export class IssuesListComponent implements OnInit {
     component.paginationData = tmpPaginationData;
   }
 
-  updateIssuesList(page) {
+  /**
+   * Update issues list with the http request
+   * @param {number} page Page number to get issues 
+   * @memberof IssuesListComponent
+   */
+  updateIssuesList(page: number) {
     let component = this;
     component.http.get(component.gitIssuesUrl + '&state=' + component.gitIssuesState + '&page=' + page).subscribe(
       res => {
@@ -93,7 +125,6 @@ export class IssuesListComponent implements OnInit {
         }
       },
       err => {
-        console.log('entro')
         component.errorMessage = err.json().message;
       }
     );

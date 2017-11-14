@@ -1,11 +1,18 @@
 import { Component, OnInit, OnChanges, Input, Output,  EventEmitter, SimpleChanges } from '@angular/core';
 import { pagination } from './pagination.model';
-
+/**
+ * Pagination issues list
+ * @export
+ * @class PaginationComponent
+ * @implements {OnInit}
+ * @implements {OnChanges}
+ */
 @Component({
   selector: 'app-pagination',
   templateUrl: './pagination.component.html',
   styleUrls: ['./pagination.component.css']
 })
+
 export class PaginationComponent implements OnInit, OnChanges {
   @Input() paginationData: pagination;
   @Input() currentPage: number;
@@ -16,10 +23,14 @@ export class PaginationComponent implements OnInit, OnChanges {
   
   showPages: Array<number> = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   
+  /**
+   * Creates an instance of PaginationComponent.
+   * @memberof PaginationComponent
+   */
   constructor() { }
 
   ngOnInit() {
-    this.updateCurrentPage();
+    this.updatePaginationShowPage();
   }
 
   goFirstPage(e: any) {
@@ -48,14 +59,22 @@ export class PaginationComponent implements OnInit, OnChanges {
     e.preventDefault();
     this.changes.emit(this.paginationData.last);
   }
-
+  /**
+   * When paginationData changes 
+   * @param {SimpleChanges} changes 
+   * @memberof PaginationComponent
+   */
   ngOnChanges(changes: SimpleChanges) {
     if(changes['paginationData']) {
-      this.updateCurrentPage();
+      this.updatePaginationShowPage();
     }
   }
 
-  updateCurrentPage() {
+  /**
+   * Update show pages values
+   * @memberof PaginationComponent
+   */
+  updatePaginationShowPage() {
     let component = this;
     let initPage = 0;
     let step = Math.ceil(component.maxShowPages/2);
