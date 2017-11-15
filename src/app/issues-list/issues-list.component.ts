@@ -46,7 +46,7 @@ export class IssuesListComponent implements OnInit {
     private router: Router) {
     let component = this;
     component.route.params.subscribe((params: Params) => {
-        component.currentPage = typeof params['numPage'] != 'undefined' ? params['numPage'] : 1;
+        component.currentPage = typeof params['numPage'] != 'undefined' ? +params['numPage'] : 1;
         this.updateIssuesList(this.currentPage);
     });
   }
